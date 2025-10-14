@@ -9,3 +9,4 @@ export default {
 	apiVersion: process.env.API_VERSION || "v1",
 	environment: process.env.NODE_ENV || "development",
 };
+

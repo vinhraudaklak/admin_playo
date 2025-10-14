@@ -6,9 +6,8 @@ import AppConfig from "./config/index.js";
 import routes from "./routes/index.js";
 import db from "./database/models/index.js";
 
-dotenv.config();
-
 const app = express();
+dotenv.config();
 
 // Middleware
 app.use(cors());

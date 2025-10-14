@@ -8,7 +8,7 @@ export default {
     return queryInterface.bulkInsert('users', [
       {
         id: uuidv4(),
-        name: 'Nguyễn Văn An',
+        name: 'admin',
         email: 'admin@sportbooking.com',
         password: hashedPassword,
         phone: '0901234567',
