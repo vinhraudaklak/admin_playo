@@ -6,9 +6,9 @@ import { createCategorySchema, updateCategorySchema } from "../validators/index.
 
 const router = express.Router();
 
-router.post("/", authMiddleware, checkRole("admin"), validate(createCategorySchema), createCategory);
-router.get("/", getAllCategories);
-router.put("/:id", authMiddleware, checkRole("admin"), validate(updateCategorySchema), updateCategory);
-router.delete("/:id", authMiddleware, checkRole("admin"), deleteCategory);
+router.get("/ports/", getAllCategories);
+router.post("/ports/", authMiddleware, checkRole("admin"), validate(createCategorySchema), createCategory);
+router.put("/ports/:id", authMiddleware, checkRole("admin"), validate(updateCategorySchema), updateCategory);
+router.delete("/ports/:id", authMiddleware, checkRole("admin"), deleteCategory);
 
 export default router;

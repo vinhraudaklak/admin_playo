@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 export const createRoleSchema = Joi.object({
-  name: Joi.string().valid("admin", "manager", "player").required(),
+  name: Joi.string().valid("admin", "owner", "user").required(),
 });
 
 export const assignRoleSchema = Joi.object({

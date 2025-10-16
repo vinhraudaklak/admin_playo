@@ -1,13 +1,13 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-import dotenv from "dotenv";
 import AppConfig from "./config/index.js";
 import routes from "./routes/index.js";
 import db from "./database/models/index.js";
 
 const app = express();
-dotenv.config();
 
 // Middleware
 app.use(cors());
@@ -31,7 +31,7 @@ app.use("/api", routes);
 })();
 
 // Start server
-const PORT = AppConfig.port || 5000;
+const PORT = AppConfig.port;
 app.listen(PORT, () => {
 	console.log(`🚀 Server running on http://localhost:${PORT}`);
 });

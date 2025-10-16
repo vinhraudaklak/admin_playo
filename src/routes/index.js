@@ -14,12 +14,12 @@ import reviewRoutes from "./review.routes.js";
 const router = express.Router();
 
 // Mount tất cả routes
-router.use("/auth", authRoutes);
-router.use("/users", userRoutes);
-router.use("/roles", roleRoutes);
-router.use("/categories", categoryRoutes);
-router.use("/positions", positionRoutes);
-router.use("/fields", fieldRoutes);
+router.use("/auth", authRoutes); // handle login, logout, register, refreshToken. OK
+router.use("/users", userRoutes); // handle get all user, get user, update + delete user. OK
+// router.use("/roles", roleRoutes);    // k có bản model.
+router.use("/categories", categoryRoutes); // handle category sport. OK
+// router.use("/positions", positionRoutes); // k có bản model.
+router.use("/fields", fieldRoutes); // handle lấy all sân, 1 sân, sửa-tạo-xóa sân. OK
 router.use("/slots", slotRoutes);
 router.use("/bookings", bookingRoutes);
 router.use("/payments", paymentRoutes);

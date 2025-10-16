@@ -19,15 +19,6 @@ export const getFieldById = async (req, res) => {
   }
 };
 
-export const createField = async (req, res) => {
-  try {
-    const field = await FieldService.createField(req.body);
-    return res.status(201).json(field);
-  } catch (err) {
-    return res.status(500).json({ message: err.message });
-  }
-};
-
 export const updateField = async (req, res) => {
   try {
     const updated = await FieldService.updateField(req.params.id, req.body);
@@ -37,6 +28,16 @@ export const updateField = async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
 };
+
+export const createField = async (req, res) => {
+  try {
+    const field = await FieldService.createField(req.body);
+    return res.status(201).json(field);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
 
 export const deleteField = async (req, res) => {
   try {

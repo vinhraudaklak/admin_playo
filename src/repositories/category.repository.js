@@ -1,21 +1,21 @@
 import db from "../database/models/index.js";
 
-const Category = db.Category;
+const Sport = db.Sport;
 
-export const create = async (data) => Category.create(data);
+export const findAll = async () => Sport.findAll();
 
-export const findById = async (id) => Category.findByPk(id);
+export const findById = async (id) => Sport.findByPk(id);
 
-export const findAll = async () => Category.findAll();
+export const create = async (data) => Sport.create(data);
 
 export const update = async (id, data) => {
-	const category = await Category.findByPk(id);
-	if (!category) return null;
+	const category = await Sport.findByPk(id);
+	if (!category) return null;	
 	return category.update(data);
 };
 
 export const remove = async (id) => {
-	const category = await Category.findByPk(id);
+	const category = await Sport.findByPk(id);
 	if (!category) return null;
 	await category.destroy();
 	return true;

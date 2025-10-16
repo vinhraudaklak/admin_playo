@@ -3,24 +3,34 @@ import db from "../database/models/index.js";
 
 const User = db.User;
 
-// Create
-export const create = async (data) => User.create(data);
-
-// Find by ID
+// Find user by ID
 export const findById = async (id) => User.findByPk(id);
 
-// Find by Email
+// Find  user by Email
 export const findByEmail = async (email) => User.findOne({ where: { email } });
 
 // Find all
 export const findAll = async () => User.findAll();
 
-// Update with ORM
+// create user.
+export const create = async (data) => User.create(data);
+
+// Update user.
 export const update = async (id, data) => {
 	const user = await User.findByPk(id);
 	if (!user) return null;
 	return user.update(data);
 };
+
+// Delete user.
+export const remove = async (id) => {
+	const user = await User.findByPk(id);
+	if (!user) return null;
+	await user.destroy();
+	return true;
+};
+
+// ---------------------- HỖ TRỢ THÊM NẾU CÓ NHU CẦU --------------------------
 
 // Update with raw query
 export const updateRaw = async (id, userData) => {
@@ -44,14 +54,6 @@ export const updateRaw = async (id, userData) => {
 	} catch (error) {
 		throw new Error("Error updating user: " + error.message);
 	}
-};
-
-// Delete
-export const remove = async (id) => {
-	const user = await User.findByPk(id);
-	if (!user) return null;
-	await user.destroy();
-	return true;
 };
 
 // Get user by email (raw query, optional password)
