@@ -22,5 +22,8 @@ export * from "./position.validator.js";
 // Role
 export * from "./role.validator.js";
 
-// Slot
-export * from "./slot.validator.js";
+// Venue
+export * from "./venue.validator.js";
+
+// Venue Slot
+export * from "./venueSlot.validator.js";

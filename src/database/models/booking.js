@@ -2,12 +2,13 @@ import { DataTypes, Model } from 'sequelize';
 
 class Booking extends Model {
   static associate(models) {
-    Booking.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
-    Booking.belongsTo(models.Venue, { foreignKey: 'venueId', as: 'venue' });
-    Booking.belongsTo(models.VenueSlot, { foreignKey: 'slotId', as: 'slot' });
-    Booking.belongsTo(models.Sport, { foreignKey: 'sportId', as: 'sport' });
-    Booking.hasOne(models.Payment, { foreignKey: 'bookingId', as: 'payment' });
-    Booking.hasOne(models.Review, { foreignKey: 'bookingId', as: 'review' });
+    Booking.belongsTo(models.User, { foreignKey: 'userId', as: 'user' }); // Người đặt sân
+    Booking.belongsTo(models.Venue, { foreignKey: 'venueId', as: 'venue' }); // Sân được đặt
+    Booking.belongsTo(models.VenueSlot, { foreignKey: 'slotId', as: 'slot' });  // Slot (ca giờ)
+    Booking.belongsTo(models.Sport, { foreignKey: 'sportId', as: 'sport' }); // Thể loại thể thao
+    Booking.hasOne(models.Payment, { foreignKey: 'bookingId', as: 'payment', onDelete: "CASCADE", }); 		// Thanh toán
+    Booking.hasOne(models.Review, { foreignKey: 'bookingId', as: 'review', onDelete: "CASCADE", }); // Đánh giá
+    
   }
 }
 

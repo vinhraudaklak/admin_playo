@@ -2,21 +2,30 @@ import { DataTypes, Model } from "sequelize";
 
 class VenueSlot extends Model {
 	static associate(models) {
+		// ✅ Mỗi slot thuộc về 1 sân
 		VenueSlot.belongsTo(models.Venue, {
 			foreignKey: "venueId",
 			as: "venue",
 		});
+
+		// ✅ Mỗi slot có thể gắn với 1 môn thể thao
 		VenueSlot.belongsTo(models.Sport, {
 			foreignKey: "sportId",
 			as: "sport",
 		});
+
+		// ✅ Mỗi slot có thể có nhiều booking
 		VenueSlot.hasMany(models.Booking, {
 			foreignKey: "slotId",
 			as: "bookings",
 		});
+
+		// ✅ Mỗi slot có thể có nhiều người tham gia
 		VenueSlot.hasMany(models.SlotUser, {
 			foreignKey: "slotId",
-			as: "slotUsers",
+			as: "slotUsers", // chỉ cần alias này là đủ
+			onDelete: "CASCADE",
+			hooks: true,
 		});
 	}
 }
@@ -49,10 +58,6 @@ export default (sequelize) => {
 			},
 			level: {
 				type: DataTypes.STRING,
-				allowNull: true,
-			},
-			listUsers: {
-				type: DataTypes.JSON,
 				allowNull: true,
 			},
 			date: {

@@ -1,28 +1,70 @@
 import { QueryTypes } from "sequelize";
 import db from "../database/models/index.js";
+import { Op } from "sequelize";
 
 const User = db.User;
 
+// Helper: loại bỏ password trước khi trả về
+const sanitizeUser = (user) => {
+	if (!user) return null;
+	const plain = user.get ? user.get({ plain: true }) : user;
+	delete plain.password;
+	delete plain.passwordHash;
+	return plain;
+};
+
+// ================= CRUD =================
+
+export const create = async (data) => {
+	const user = await User.create(data);
+	return sanitizeUser(user);
+};
+
 // Find user by ID
-export const findById = async (id) => User.findByPk(id);
+export const findById = async (id) => {
+	const user = await User.findByPk(id, {
+		attributes: ["id", "name", "email", "role", "phone"],
+	});
+	return sanitizeUser(user);
+};
 
-// Find  user by Email
-export const findByEmail = async (email) => User.findOne({ where: { email } });
+// Find user by Email
+export const findByEmail = async (email) => {
+	const user = await User.findOne({ where: { email } });
+	return sanitizeUser(user);
+};
 
-// Find all
-export const findAll = async () => User.findAll();
+export const findAndCountAll = async (limit, offset, search = "") => {
+	const whereClause = search
+		? {
+				[Op.or]: [
+					{ name: { [Op.like]: `%${search}%` } },
+					{ email: { [Op.like]: `%${search}%` } },
+				],
+		  }
+		: {};
+	const result = await User.findAndCountAll({
+		where: whereClause,
+		limit,
+		offset,
+		order: [["createdAt", "DESC"]],
+	});
 
-// create user.
-export const create = async (data) => User.create(data);
+	return {
+		count: result.count,
+		rows: result.rows.map(sanitizeUser),
+	};
+};
 
 // Update user.
 export const update = async (id, data) => {
 	const user = await User.findByPk(id);
 	if (!user) return null;
-	return user.update(data);
+	const updated = await user.update(data);
+	return sanitizeUser(updated);
 };
 
-// Delete user.
+// Delete user
 export const remove = async (id) => {
 	const user = await User.findByPk(id);
 	if (!user) return null;
@@ -30,7 +72,13 @@ export const remove = async (id) => {
 	return true;
 };
 
-// ---------------------- HỖ TRỢ THÊM NẾU CÓ NHU CẦU --------------------------
+// Find one user with custom condition (giống findOne của Sequelize)
+export const findOne = async (condition) => {
+  const user = await User.findOne(condition);
+  return user;
+};
+
+// ================= RAW QUERY & EXTRA HELPERS =================
 
 // Update with raw query
 export const updateRaw = async (id, userData) => {
@@ -50,7 +98,7 @@ export const updateRaw = async (id, userData) => {
 			}
 		);
 
-		return { id, ...userData };
+		return sanitizeUser({ id, ...userData });
 	} catch (error) {
 		throw new Error("Error updating user: " + error.message);
 	}

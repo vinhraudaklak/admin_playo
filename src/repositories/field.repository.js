@@ -2,19 +2,31 @@ import db from "../database/models/index.js";
 
 const Venue = db.Venue;
 
-export const findAll = async () =>
-	Venue.findAll({
+export const findAll = async (limit, offset, sportId = null, ownerUserId = null) => {
+	const where = {};
+
+	if (sportId) {
+		where.sportId = sportId; // chỉ lấy sân của môn thể thao cụ thể
+	}
+	if (ownerUserId) where.ownerUserId = ownerUserId; // 🔹 lọc theo chủ sân
+
+	return Venue.findAndCountAll({
+		where,
 		include: [
-			{ model: db.Sport, as: "sport" }, // dùng đúng alias đã định nghĩa trong model
-			{ model: db.User, as: "owner" }, // alias "owner" trong model Venue
+			{ model: db.Sport, as: "sport" },
+			{ model: db.User, as: "owner" },
 		],
+		limit,
+		offset,
+		order: [["id", "ASC"]],
 	});
+};
 
 export const findById = async (id) =>
 	Venue.findByPk(id, {
 		include: [
-			{ model: db.Sport, as: "sport" }, // dùng đúng alias đã định nghĩa trong model
-			{ model: db.User, as: "owner" }, // alias "owner" trong model Venue
+			{ model: db.Sport, as: "sport" },
+			{ model: db.User, as: "owner" },
 		],
 	});
 

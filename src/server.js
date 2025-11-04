@@ -10,7 +10,19 @@ import db from "./database/models/index.js";
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://admin-playo.onrender.com",
+      "https://playo-fe.onrender.com" // nếu deploy FE riêng
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 app.use(bodyParser.json());
 
 // Routes

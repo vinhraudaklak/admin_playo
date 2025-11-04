@@ -2,8 +2,9 @@ import { CategoryService } from "../services/index.js";
 
 export const getAllCategories = async (req, res) => {
 	try {
-		const categories = await CategoryService.getAllCategories();
-		return res.json(categories);
+		const { page = 1, limit = 5 } = req.query;
+		const result = await CategoryService.getAllCategories(page, limit);
+		return res.json(result);
 	} catch (err) {
 		return res.status(500).json({ message: err.message });
 	}

@@ -17,22 +17,44 @@ export default {
 				references: { model: "sports", key: "id" },
 				onDelete: "SET NULL",
 			},
-			level: Sequelize.STRING,
-			listUsers: Sequelize.JSON,
-			date: Sequelize.DATEONLY,
-			startTime: Sequelize.TIME,
-			endTime: Sequelize.TIME,
-			isAvailable: { type: Sequelize.BOOLEAN, defaultValue: true },
+			level: {
+				type: Sequelize.STRING,
+				allowNull: true,
+			},
+			date: {
+				type: Sequelize.DATEONLY,
+				allowNull: true,
+			},
+			startTime: {
+				type: Sequelize.TIME,
+				allowNull: true,
+			},
+			endTime: {
+				type: Sequelize.TIME,
+				allowNull: true,
+			},
+			isAvailable: {
+				type: Sequelize.BOOLEAN,
+				defaultValue: true,
+			},
+			listUsers: {
+				type: Sequelize.TEXT,
+				allowNull: true,
+				defaultValue: "[]",
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE,
+				defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
 			},
 			updatedAt: {
 				allowNull: false,
 				type: Sequelize.DATE,
+				defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
 			},
 		});
 	},
+
 	down: async (queryInterface) => {
 		await queryInterface.dropTable("venue_slots");
 	},

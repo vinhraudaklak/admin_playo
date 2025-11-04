@@ -1,22 +1,41 @@
 import db from "../database/models/index.js";
+const { VenueSlot, Venue, Sport, SlotUser } = db;
 
-const Slot = db.Slot;
+export const findAll = async () => {
+	return VenueSlot.findAll({
+		include: [
+			{ model: Venue, as: "venue" },
+			{ model: Sport, as: "sport" },
+			{ model: SlotUser, as: "slotUsers" },
+		],
+		order: [["date", "ASC"], ["startTime", "ASC"]],
+	});
+};
 
-export const create = async (data) => Slot.create(data);
+export const findById = async (id) => {
+	return VenueSlot.findByPk(id, {
+		include: [
+			{ model: Venue, as: "venue" },
+			{ model: Sport, as: "sport" },
+			{ model: SlotUser, as: "slotUsers" },
+		],
+	});
+};
 
-export const findById = async (id) => Slot.findByPk(id, { include: [db.Field] });
-
-export const findAll = async () => Slot.findAll({ include: [db.Field] });
+export const create = async (data) => {
+	return VenueSlot.create(data);
+};
 
 export const update = async (id, data) => {
-  const slot = await Slot.findByPk(id);
+  const slot = await VenueSlot.findByPk(id);
   if (!slot) return null;
-  return slot.update(data);
+  await slot.update(data);
+  return slot.toJSON(); // ⚡ trả JSON thật, không phải Sequelize instance
 };
 
 export const remove = async (id) => {
-  const slot = await Slot.findByPk(id);
-  if (!slot) return null;
-  await slot.destroy();
-  return true;
+	const slot = await VenueSlot.findByPk(id);
+	if (!slot) return null;
+	await slot.destroy();
+	return true;
 };

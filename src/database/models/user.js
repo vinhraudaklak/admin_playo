@@ -54,6 +54,14 @@ export default (sequelize) => {
         type: DataTypes.ENUM('user', 'owner', 'admin'),
         defaultValue: 'user',
       },
+        resetPasswordToken: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      resetPasswordExpires: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
     },
     {
       sequelize,

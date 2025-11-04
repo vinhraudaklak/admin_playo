@@ -4,40 +4,50 @@ import db from "../database/models/index.js";
 
 const { User } = db;
 
-/**
- * Middleware xác thực JWT
- * - Kiểm tra token hợp lệ
- * - Gắn user vào req.user
- */
 export const authMiddleware = async (req, res, next) => {
-	try {
-		const authHeader = req.headers["authorization"];
-		const token = authHeader && authHeader.split(" ")[1]; // format: "Bearer <token>"
+  try {
+    const authHeader = req.headers["authorization"];
 
-		if (!token) {
-			return res.status(401).json({ error: "No token provided" });
-		}
+    if (!authHeader) {
+      console.warn("⚠️ Thiếu Authorization header");
+      return res.status(401).json({ message: "Thiếu Authorization header" });
+    }
 
-		// ✅ Verify token
-		const decoded = jwt.verify(token, AppConfig.jwt.secret);
+    const token = authHeader.split(" ")[1]; // Bearer <token>
 
-		// ✅ Tìm user trong DB
-		const user = await User.findByPk(decoded.id);
+    if (!token) {
+      console.warn("⚠️ Không tìm thấy token trong header");
+      return res.status(401).json({ message: "Không tìm thấy token trong header" });
+    }
 
-		if (!user) {
-			return res.status(401).json({ error: "User not found" });
-		}
+    // ✅ Giải mã token
+    const decoded = jwt.verify(token, AppConfig.jwt.secret);
 
-		// ✅ Gắn thông tin user vào request
-		req.user = {
-			id: user.id,
-			email: user.email,
-			role: user.role, // 🧩 vì role lưu trực tiếp trong bảng users
-		};
+    if (!decoded || !decoded.id) {
+      console.error("❌ Token không chứa id:", decoded);
+      return res.status(401).json({ message: "Token không hợp lệ hoặc không có id" });
+    }
 
-		next();
-	} catch (err) {
-		console.error("authMiddleware error:", err);
-		res.status(401).json({ error: "Invalid or expired token" });
-	}
+    // ✅ Lấy user từ DB
+    const user = await User.findByPk(decoded.id);
+
+    if (!user) {
+      console.error("❌ Không tìm thấy user:", decoded.id);
+      return res.status(401).json({ message: "User không tồn tại hoặc token hết hạn" });
+    }
+
+    // ✅ Gắn user vào req
+    req.user = {
+      id: user.id.toString(),
+      email: user.email,
+      role: user.role,
+    };
+
+    console.log("✅ Authenticated user:", req.user);
+
+    next();
+  } catch (err) {
+    console.error("❌ authMiddleware error:", err.message);
+    res.status(401).json({ message: "Token không hợp lệ hoặc đã hết hạn" });
+  }
 };
