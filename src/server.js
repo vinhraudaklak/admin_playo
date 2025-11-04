@@ -15,7 +15,8 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://admin-playo.onrender.com",
-      "https://playo-fe.onrender.com" // nếu deploy FE riêng
+      "https://playo-fe.onrender.com", // nếu deploy FE riêng
+      "https://playo-fe.vercel.app"
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
