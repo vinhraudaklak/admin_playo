@@ -22,3 +22,57 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Bỏ qua file chứa bí mật và cấu hình cục bộgit push --force origin main
+
+Enumerating objects: 144, done.
+Counting objects: 100% (144/144), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (85/85), done.
+Writing objects: 100% (86/86), 36.32 KiB | 2.42 MiB/s, done.
+Total 86 (delta 37), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (37/37), completed with 32 local objects.
+remote: error: GH013: Repository rule violations found for refs/heads/main.
+remote:
+remote: - GITHUB PUSH PROTECTION
+remote:   —————————————————————————————————————————
+remote:     Resolve the following violations before pushing again     
+remote:
+remote:     - Push cannot contain secrets
+remote:
+remote:
+remote:      (?) Learn how to resolve a blocked push
+remote:      https://docs.github.com/code-security/secret-scanning/working-with-secret-scanning-and-push-protection/working-with-push-protection-from-the-command-line#resolving-a-blocked-push
+remote:
+remote:
+remote:       —— Stripe Test API Secret Key ————————————————————————  
+remote:        locations:
+remote:          - commit: 59609028f19f767bc9b1095fc966e9b8b424c261   
+remote:            path: .env:20
+remote:
+remote:        (?) To push, remove secret from commit(s) or follow this URL to allow the secret.
+remote:        https://github.com/vinhraudaklak/admin_playo/security/secret-scanning/unblock-secret/350nlNBvFwIngAA0O2gCAcAHX7x
+remote:
+remote:
+remote:       —— Google OAuth Client ID ————————————————————————————  
+remote:        locations:
+remote:          - commit: 59609028f19f767bc9b1095fc966e9b8b424c261   
+remote:            path: .env:23
+remote:
+remote:        (?) To push, remove secret from commit(s) or follow this URL to allow the secret.
+remote:        https://github.com/vinhraudaklak/admin_playo/security/secret-scanning/unblock-secret/350nlNiGIv2mRzgpJ2FbazSqx6Y
+remote:
+remote:
+remote:       —— Google OAuth Client Secret ————————————————————————  
+remote:        locations:
+remote:          - commit: 59609028f19f767bc9b1095fc966e9b8b424c261   
+remote:            path: .env:24
+remote:
+remote:        (?) To push, remove secret from commit(s) or follow this URL to allow the secret.
+remote:        https://github.com/vinhraudaklak/admin_playo/security/secret-scanning/unblock-secret/350nlPHtiJ8D3TiEEBZ5cb7Rnz6
+remote:
+remote:
+remote:
+To https://github.com/vinhraudaklak/admin_playo.git
+ ! [remote rejected] main -> main (push declined due to repository rule violations)
+error: failed to push some refs to 'https://github.com/vinhraudaklak/admin_playo.git'
+.env
