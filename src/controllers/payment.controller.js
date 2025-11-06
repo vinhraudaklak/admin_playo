@@ -157,13 +157,14 @@ export const createOnlinePayment = async (req, res) => {
  */
 export const handlePaymentCallback = async (req, res) => {
 	try {
-		const { provider } = req.params;
-		stripe;
+		const { provider } = req.params; // stripe | momo | vnpay
+
 		const result = await PaymentService.handlePaymentCallback(
 			provider,
 			req.query
 		);
 
+		// URL FE deploy (đã có trailing slash)
 		const frontendUrl =
 			process.env.FRONTEND_URL || "https://playo-fe.vercel.app/";
 
