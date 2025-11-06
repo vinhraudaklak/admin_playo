@@ -157,16 +157,20 @@ export const createOnlinePayment = async (req, res) => {
  */
 export const handlePaymentCallback = async (req, res) => {
 	try {
-		const { provider } = req.params; // vnpay | momo | stripe
+		const { provider } = req.params;
+		stripe;
 		const result = await PaymentService.handlePaymentCallback(
 			provider,
 			req.query
 		);
 
+		const frontendUrl =
+			process.env.FRONTEND_URL || "https://playo-fe.vercel.app/";
+
 		if (result?.success) {
-			return res.redirect("/payment-success"); // route FE
+			return res.redirect(`${frontendUrl}payment-success`);
 		} else {
-			return res.redirect("/payment-failed");
+			return res.redirect(`${frontendUrl}payment-failed`);
 		}
 	} catch (err) {
 		console.error("handlePaymentCallback error:", err);
