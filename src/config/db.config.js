@@ -8,6 +8,7 @@ export default {
 	dialect: process.env.DB_DIALECT || "mysql",
 	logging: false, // hoặc true nếu bạn muốn log query
 
+	
 	pool: {
 		max: parseInt(process.env.DB_POOL_MAX, 10) || 5,
 		min: parseInt(process.env.DB_POOL_MIN, 10) || 0,

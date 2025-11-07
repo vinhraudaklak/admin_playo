@@ -165,13 +165,12 @@ export const handlePaymentCallback = async (req, res) => {
 		);
 
 		// URL FE deploy (đã có trailing slash)
-		const frontendUrl =
-			process.env.FRONTEND_URL || "https://playo-fe.vercel.app/";
+		const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
 
 		if (result?.success) {
-			return res.redirect(`${frontendUrl}payment-success`);
+			return res.redirect(`${frontendUrl}/payment-success`);
 		} else {
-			return res.redirect(`${frontendUrl}payment-failed`);
+			return res.redirect(`${frontendUrl}/payment-failed`);
 		}
 	} catch (err) {
 		console.error("handlePaymentCallback error:", err);
